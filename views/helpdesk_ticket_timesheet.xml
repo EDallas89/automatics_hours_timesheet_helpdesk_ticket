@@ -19,6 +19,9 @@
         <field name="date_stop" readonly="1" />
         <field name="computed_hours" widget="float_time" readonly="1" />
       </xpath>
+      <xpath expr="//group[@name='costs']" position="inside">
+        <field name="computed_hours" widget="float_time"/>
+      </xpath>
     </field>
   </record>
 </data>
