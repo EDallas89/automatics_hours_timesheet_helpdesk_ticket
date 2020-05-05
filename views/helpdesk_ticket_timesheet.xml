@@ -15,7 +15,7 @@
         <field name="date_start" readonly="1" />
         <field name="date_reboot" invisible="1" />
         <button name="action_pause" string="Pause" type="object" icon="fa-pause" attrs="{'invisible': ['|',('start_stop', '=', False),('date_stop', '!=', False)]}" />
-        <button name="action_stop" string="Stop" type="object" icon="fa-stop" attrs="{'invisible': ['|',('date_start', '=', False), ('date_stop', '!=', False)]}" confirm="¿Seguro que quiere finalizar esta tarea?" />
+        <button name="action_stop" string="Stop" type="object" icon="fa-stop" attrs="{'invisible': ['|',('date_start', '=', False), ('date_stop', '!=', False)]}" confirm="Are you sure you want to complete this task?" />
         <field name="date_stop" readonly="1" />
         <field name="computed_hours" widget="float_time" readonly="1" />
       </xpath>
