@@ -6,9 +6,6 @@
     <field name="inherit_id" ref="helpdesk_mgmt.ticket_view_form" />
     <field name="priority" eval="25" />
     <field name="arch" type="xml">
-      <xpath expr="//field[@name='create_date']" position="after">
-        <field name="total_computed_hours_ticket"/>
-      </xpath>
       <xpath expr="//field[@name='unit_amount']" position="before">
         <field name="start_stop" invisible="1" />
         <button name="action_start" string="Start" type="object" icon="fa-play" attrs="{'invisible': ['|',('start_stop', '=', True),('date_stop', '!=', False)]}" />
@@ -17,10 +14,6 @@
         <button name="action_pause" string="Pause" type="object" icon="fa-pause" attrs="{'invisible': ['|',('start_stop', '=', False),('date_stop', '!=', False)]}" />
         <button name="action_stop" string="Stop" type="object" icon="fa-stop" attrs="{'invisible': ['|',('date_start', '=', False), ('date_stop', '!=', False)]}" confirm="Are you sure you want to complete this task?" />
         <field name="date_stop" readonly="1" />
-        <field name="computed_hours" widget="float_time" readonly="1" />
-      </xpath>
-      <xpath expr="//group[@name='costs']" position="inside">
-        <field name="computed_hours" widget="float_time"/>
       </xpath>
     </field>
   </record>

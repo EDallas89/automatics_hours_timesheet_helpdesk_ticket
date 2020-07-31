@@ -18,9 +18,6 @@ class AccountAnalyticLine(models.Model):
     date_reboot = fields.Datetime(
         string='Reboot Time'
     )
-    computed_hours = fields.Float(
-        string='Computed Hours'
-    )
 
     @api.multi
     def action_start(self):
@@ -53,31 +50,27 @@ class AccountAnalyticLine(models.Model):
     def action_pause(self):
         duration = self.count_time()
 
-        if self.unit_amount == self.computed_hours:
+        if self.unit_amount == self.unit_amount:
             return self.write({
                 'start_stop': False,
-                'computed_hours': duration,
                 'unit_amount': duration,
             })
 
         return self.write({
             'start_stop': False,
-            'computed_hours': duration,
         })
 
     @api.multi
     def action_stop(self):
         duration = self.count_time()
-        if self.unit_amount == self.computed_hours:
+        if self.unit_amount == self.unit_amount:
             return self.write({
                 'start_stop': False,
                 'date_stop': datetime.now(),
-                'computed_hours': duration,
                 'unit_amount': duration,
             })
 
         return self.write({
             'start_stop': False,
             'date_stop': datetime.now(),
-            'computed_hours': duration,
         })

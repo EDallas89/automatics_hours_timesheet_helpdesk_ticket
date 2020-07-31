@@ -7,10 +7,9 @@
     'author': "Inma Sánchez",
     'website': "https://github.com/EDallas89",
     'category': 'Timesheet',
-    'version': '12.0',
-    'depends': ['account','simple_timesheet_helpdesk_ticket', 'helpdesk_mgmt'],
+    'version': '12.0.2',
+    'depends': ['account','helpdesk_mgmt_timesheet', 'helpdesk_mgmt'],
     'data': [
-        # 'security/ir.model.access.csv',
         'views/helpdesk_ticket_timesheet.xml',
     ],
     'installable': True,
