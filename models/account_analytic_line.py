@@ -21,56 +21,43 @@ class AccountAnalyticLine(models.Model):
 
     @api.multi
     def action_start(self):
-        date_start = self.date_start
-        if date_start == False:
+        if self.date_start == False: # Si la línea nunca se ha inicializado
             return self.write({'date_start': datetime.now(), 'start_stop': True})
-        else:
-            return self.write({'date_pause': datetime.now(), 'start_stop': True})
+        else: # Si la línea está pausada
+            return self.write({'date_reboot': datetime.now(), 'start_stop': True})
 
     @api.multi
     def count_time(self):
-        date_reboot = self.date_reboot
-        if date_reboot:
-            datetime_diff = datetime.now() - date_reboot
+        if self.date_reboot: # Se está parando una línea reiniciada
+            datetime_diff = datetime.now() - self.date_reboot
             self.date_reboot = False
-        else:
+        else: # Se está parando una línea que no ha sido reiniciada
             datetime_diff = datetime.now() - self.date_start
-        minutes, seconds = divmod(datetime_diff.total_seconds(), 60)
-
-        # Convertimos los minutos en horas
-        hours, minutes = divmod(minutes, 60)
+        
+        minutes, seconds = divmod(datetime_diff.total_seconds(), 60) # Convertimos los segundos en minutos
+        hours, minutes = divmod(minutes, 60) # Convertimos los minutos en horas
         # Damos formato a la hora
         dur_hours = (('%0*d') % (2, hours))
         dur_minutes = (('%0*d') % (2, minutes * 1.677966102))
         duration = dur_hours + '.' + dur_minutes
 
-        return duration
+        total = self.unit_amount + float(duration) # Sumamos la duración actual con la recién calculada
+        return total
 
     @api.multi
     def action_pause(self):
-        duration = self.count_time()
-
-        if self.unit_amount == self.unit_amount:
-            return self.write({
-                'start_stop': False,
-                'unit_amount': duration,
-            })
-
         return self.write({
             'start_stop': False,
+            'unit_amount': self.count_time(),
         })
 
     @api.multi
     def action_stop(self):
-        duration = self.count_time()
-        if self.unit_amount == self.unit_amount:
+        if self.start_stop == False: # Si la línea está pausada
+            return self.write({'date_stop': datetime.now(),})
+        else: # Si la línea está activa
             return self.write({
                 'start_stop': False,
                 'date_stop': datetime.now(),
-                'unit_amount': duration,
+                'unit_amount': self.count_time(),
             })
-
-        return self.write({
-            'start_stop': False,
-            'date_stop': datetime.now(),
-        })
